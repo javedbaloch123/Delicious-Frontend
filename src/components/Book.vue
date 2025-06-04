@@ -29,6 +29,26 @@ onMounted(async () => {
     console.log(error);
   }
 });
+const time = ref('');
+const fetchTime = async () => {
+   
+  try {
+    state.isLoading = true;
+    const data = {
+      date: state.date,
+    };
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/fetch-time",
+      data
+    );
+    console.log(response.data);
+    time.value = response.data;
+  } catch (error) {
+    console.log(error);
+  }finally {
+    state.isLoading = false;
+  }
+};
 
 const submitForm = async () => {
   try {
@@ -153,8 +173,11 @@ const submitForm = async () => {
                   name="date"
                   id="date"
                   v-model="state.date"
+                  @change="fetchTime"
                 >
-                  <option value="">Select Date</option>
+                  <option value="">
+                    Select Date
+                  </option>
                   <option
                     v-for="slot in slots.filter((s) => s.is_booked == 'true')"
                     :key="slot.id"
@@ -175,12 +198,8 @@ const submitForm = async () => {
                   v-model="state.time"
                 >
                   <option value="">Select time</option>
-                  <option
-                    v-for="slot in slots.filter((s) => s.is_booked == 'true')"
-                    :key="slot.id"
-                    :value="slot.initial_time + '-' + slot.End_time"
-                  >
-                    {{ slot.initial_time }} - {{ slot.End_time }}
+                 <option value="" v-if="time != ''" selected>
+                    {{ time }}
                   </option>
                 </select>
                 <p v-if="state.errors && state.errors.time" class="text-danger">

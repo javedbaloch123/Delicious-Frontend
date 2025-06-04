@@ -25,7 +25,7 @@ const route = useRoute();
         <a href="index.html" class="logo d-flex align-items-center">
           <!-- Uncomment the line below if you also wish to use an image logo -->
           <!-- <img src="assets/img/logo.png" alt=""> -->
-          <h1 class="sitename">Delicious</h1>
+          <RouterLink to="/"><h1 class="sitename">Delicious</h1></RouterLink>
         </a>
 
         <nav id="navmenu" class="navmenu">
