@@ -29,9 +29,9 @@ onMounted(async () => {
     console.log(error);
   }
 });
-const time = ref('');
+const time = ref("");
+
 const fetchTime = async () => {
-   
   try {
     state.isLoading = true;
     const data = {
@@ -43,9 +43,10 @@ const fetchTime = async () => {
     );
     console.log(response.data);
     time.value = response.data;
+    state.time = response.data;
   } catch (error) {
     console.log(error);
-  }finally {
+  } finally {
     state.isLoading = false;
   }
 };
@@ -87,7 +88,7 @@ const submitForm = async () => {
 
       // window.location.reload();
     }
-    console.log(book.value);
+    
   } catch (error) {
   } finally {
     state.isLoading = false;
@@ -175,9 +176,7 @@ const submitForm = async () => {
                   v-model="state.date"
                   @change="fetchTime"
                 >
-                  <option value="">
-                    Select Date
-                  </option>
+                  <option value="">Select Date</option>
                   <option
                     v-for="slot in slots.filter((s) => s.is_booked == 'true')"
                     :key="slot.id"
@@ -196,9 +195,10 @@ const submitForm = async () => {
                   name="time"
                   id="time"
                   v-model="state.time"
-                >
-                  <option value="">Select time</option>
-                 <option value="" v-if="time != ''" selected>
+                  
+                  >   
+                  <option value="">Select Time</option>
+                  <option v-if="time != ''" :value="time" selected>
                     {{ time }}
                   </option>
                 </select>
